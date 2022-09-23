@@ -3,6 +3,6 @@
 
 ## Add Helm Repo
 ```
-helm repo add https://davidhiendl.github.io/gitlab-runner-hetzner-autoscale/
+helm repo add gitlab-runner-hetzner-autoscale https://davidhiendl.github.io/gitlab-runner-hetzner-autoscale/
 helm repo update
 ```
