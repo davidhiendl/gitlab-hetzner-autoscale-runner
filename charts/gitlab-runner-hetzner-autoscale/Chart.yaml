@@ -7,10 +7,8 @@ keywords:
 - gitlab-runner
 - autoscale
 - hetzner
-home: https://gitlab.com/dhswt/k8s/charts/gitlab-runner-hetzner-autoscale
+home: https://github.com/davidhiendl/gitlab-runner-hetzner-autoscale
 # icon: https://....
 sources:
-- https://gitlab.com/dhswt/k8s/charts/gitlab-runner-hetzner-autoscale
-maintainers:
-- name: David Hiendl
-  email: david.hiendl@dhswt.de
+- https://github.com/davidhiendl/gitlab-runner-hetzner-autoscale
+
