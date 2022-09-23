@@ -1,4 +1,4 @@
-image: mawalu/hetzner-gitlab-runner:latest
+image: ghcr.io/davidhiendl/gitlab-runner-hetzner-autoscale:master
 pullPolicy: Always
 registrationToken: ""
 ciServerUrl: "https://gitlab.com/"
