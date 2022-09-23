@@ -10,8 +10,8 @@ type: Opaque
 
 stringData:
 
-  REGISTRATION_TOKEN: {{ .Values.registrationToken | quote }}
-  CI_SERVER_URL: {{ .Values.ciServerUrl | quote }}
+  REGISTRATION_TOKEN: {{ .Values.runner.registrationToken | quote }}
+  CI_SERVER_URL: {{ .Values.runner.ciServerUrl | quote }}
 
   register.sh: |
     {{ .Files.Get "files/register.sh" | indent 4 | trim }}
@@ -28,7 +28,7 @@ stringData:
 
     [[runners]]
       name = "test-runner"
-      url = "https://gitlab.com/"
+      url = "{{ .Values.runner.ciServerUrl }}"
       pre_clone_script = "eval \"$CI_PRE_CLONE_SCRIPT\""
       executor = "docker+machine"
       environment = [
@@ -65,16 +65,16 @@ stringData:
         MachineOptions = [
             "hetzner-api-token={{ .Values.hetznerApiToken }}", 
             # "hetzner-image-id=32116616",
-            "hetzner-image=ubuntu-20.04",
+            "hetzner-image={{ .Values.hetzner.image }}",
             # "hetzner-image=debian-10",
-            "hetzner-server-location=ash",
-            "hetzner-server-type=cpx21",
+            "hetzner-server-location={{ .Values.hetzner.serverLocation }}",
+            "hetzner-server-type={{ .Values.hetzner.serverType }}",
             # see for available versions: https://github.com/rancher/install-docker/tree/master/dist
             # "engine-install-url=https://releases.rancher.com/install-docker/19.03.15.sh"
             # "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/noop.sh"
             # "engine-install-url=https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/chart/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
             # "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/hetzner-ubuntu-docker-fastinstall.sh"
-            "engine-install-url=https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/charts/gitlab-runner-hetzner-autoscale/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
+            "engine-install-url={{ .Values.hetzner.engineInstallUrl }}"
         ]
         OffPeakTimezone = ""
         OffPeakIdleCount = 0
