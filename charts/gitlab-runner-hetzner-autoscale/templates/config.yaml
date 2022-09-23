@@ -63,7 +63,7 @@ stringData:
         MachineDriver = "hetzner"
         MachineName = "runner-%s"
         MachineOptions = [
-            "hetzner-api-token={{ .Values.hetznerApiToken }}", 
+            "hetzner-api-token={{ .Values.hetzner.apiToken }}", 
             # "hetzner-image-id=32116616",
             "hetzner-image={{ .Values.hetzner.image }}",
             # "hetzner-image=debian-10",
