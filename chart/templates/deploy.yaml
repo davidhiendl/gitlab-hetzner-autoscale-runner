@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ template "gitlab-runner-hetzner-autoscale.resname" . }}
+  labels: {{ include "gitlab-runner-hetzner-autoscale.labels" . | indent 4 }}
+    component: runner
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+
+  selector:
+    matchLabels: {{ include "gitlab-runner-hetzner-autoscale.labels-selector" . | indent 6 }}
+      component: runner
+  
+  template:
+    metadata:
+      labels: {{ include "gitlab-runner-hetzner-autoscale.labels" . | indent 8 }}
+        component: runner
+        revision: {{ .Release.Revision | quote }}
+
+    spec:
+      enableServiceLinks: false
+      terminationGracePeriodSeconds: 60
+      {{ if .Values.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecret }}
+      {{ end }}
+
+      initContainers:
+      - image: {{ .Values.image }}
+        imagePullPolicy: Always
+        name: register-runner
+        command: ["/bin/bash", "/register.sh"]
+
+        env:
+        - name: REGISTRATION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "gitlab-runner-hetzner-autoscale.resname" . }}-config
+              key: REGISTRATION_TOKEN
+        - name: CI_SERVER_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "gitlab-runner-hetzner-autoscale.resname" . }}-config
+              key: CI_SERVER_URL
+        
+        volumeMounts:
+        - name: config
+          mountPath: /register.sh
+          subPath: register.sh
+
+        - name: config
+          mountPath: /gitlab-runner-config/config.template.toml
+          subPath: config.template.toml
+        
+        - name: config-tmp
+          mountPath: /etc/gitlab-runner
+
+      containers:
+      - image: {{ .Values.image }}
+        imagePullPolicy: Always
+        name: gitlab-runner
+        volumeMounts:
+        - name: config-tmp
+          mountPath: /etc/gitlab-runner
+        resources: 
+          {{ toYaml .Values.resources | indent 10 | trim }}
+
+      volumes:
+      - name: config-tmp
+        emptyDir: {}
+      - name: config
+        secret:
+          secretName: {{ template "gitlab-runner-hetzner-autoscale.resname" . }}-config

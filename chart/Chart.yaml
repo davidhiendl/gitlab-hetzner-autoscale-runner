@@ -1,0 +1,16 @@
+apiVersion: v1
+description: gitlab-runner-hetzner-autoscale
+name: gitlab-runner-hetzner-autoscale
+version: 0.0.1
+appVersion: v0.1
+keywords:
+- gitlab-runner
+- autoscale
+- hetzner
+home: https://gitlab.com/dhswt/k8s/charts/gitlab-runner-hetzner-autoscale
+# icon: https://....
+sources:
+- https://gitlab.com/dhswt/k8s/charts/gitlab-runner-hetzner-autoscale
+maintainers:
+- name: David Hiendl
+  email: david.hiendl@dhswt.de

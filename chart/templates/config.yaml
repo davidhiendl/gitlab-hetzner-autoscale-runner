@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Secret
+
+metadata:
+  name: {{ template "gitlab-runner-hetzner-autoscale.resname" . }}-config
+  labels: {{ include "gitlab-runner-hetzner-autoscale.labels" . | indent 4 }}
+    component: config
+
+type: Opaque
+
+stringData:
+
+  REGISTRATION_TOKEN: {{ .Values.registrationToken | quote }}
+  CI_SERVER_URL: {{ .Values.ciServerUrl | quote }}
+
+  register.sh: |
+    {{ .Files.Get "files/register.sh" | indent 4 | trim }}
+
+  config.template.toml: |
+    # docker+machine based on gitlab.com shared runner config: 
+    # (old) https://docs.gitlab.com/ee/user/gitlab_com/#configtoml
+    # (new) https://docs.gitlab.com/ee/ci/runners/build_cloud/linux_build_cloud.html#configtoml
+    concurrent = 1
+    check_interval = 3
+
+    [session_server]
+      session_timeout = 1800
+
+    [[runners]]
+      name = "test-runner"
+      url = "https://gitlab.com/"
+      pre_clone_script = "eval \"$CI_PRE_CLONE_SCRIPT\""
+      executor = "docker+machine"
+      environment = [
+        "DOCKER_DRIVER=overlay2",
+        "DOCKER_TLS_CERTDIR="
+      ]
+      # maximum number of parallel jobs to execute ( more or less count of vms active at the same time)
+      limit = 2
+
+      [runners.cache]
+      [runners.docker]
+        image = "ruby:2.5"
+        privileged = true
+        volumes = [
+          "/certs/client",
+          "/dummy-sys-class-dmi-id:/sys/class/dmi/id:ro", # Make kaniko builds work on GCP.
+        #  "/cache"
+        ]
+        #tls_verify = false
+        #image = "docker:latest"
+        #image = "docker:19.03.15"
+        #disable_entrypoint_overwrite = false
+        #oom_kill_disable = false
+        # disable_cache = false
+        # shm_size = 536870912
+      [runners.machine]
+        # dont keep any idle vms alive, startup time is low enough
+        IdleCount = 0
+        # kill off instance if idle more then 1800s
+        IdleTime = 1800
+        MaxBuilds = 10
+        MachineDriver = "hetzner"
+        MachineName = "runner-%s"
+        MachineOptions = [
+            "hetzner-api-token={{ .Values.hetznerApiToken }}", 
+            # "hetzner-image-id=32116616",
+            "hetzner-image=ubuntu-20.04",
+            # "hetzner-image=debian-10",
+            "hetzner-server-location=ash",
+            "hetzner-server-type=cpx21",
+            # see for available versions: https://github.com/rancher/install-docker/tree/master/dist
+            # "engine-install-url=https://releases.rancher.com/install-docker/19.03.15.sh"
+            # "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/noop.sh"
+            "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/hetzner-ubuntu-docker-fastinstall.sh"
+        ]
+        OffPeakTimezone = ""
+        OffPeakIdleCount = 0
+        OffPeakIdleTime = 0
+

@@ -1,0 +1,13 @@
+image: mawalu/hetzner-gitlab-runner:latest
+pullPolicy: Always
+registrationToken: ""
+ciServerUrl: "https://gitlab.com/"
+hetznerApiToken: ""
+
+resources:
+  requests:
+    cpu: "150m"
+    memory: "250Mi"
+  limits:
+    cpu: "250m"
+    memory: "500Mi"
