@@ -72,7 +72,9 @@ stringData:
             # see for available versions: https://github.com/rancher/install-docker/tree/master/dist
             # "engine-install-url=https://releases.rancher.com/install-docker/19.03.15.sh"
             # "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/noop.sh"
-            "engine-install-url=https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/chart/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
+            # "engine-install-url=https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/chart/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
+            # "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/hetzner-ubuntu-docker-fastinstall.sh"
+            "engine-install-url=https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/charts/gitlab-runner-hetzner-autoscale/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
         ]
         OffPeakTimezone = ""
         OffPeakIdleCount = 0
