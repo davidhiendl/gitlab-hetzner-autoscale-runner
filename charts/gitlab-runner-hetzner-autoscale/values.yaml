@@ -3,10 +3,10 @@ pullPolicy: Always
 
 hetzner:
   apiToken:
-  engineInstallUrl: "https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/charts/gitlab-runner-hetzner-autoscale/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
+  engineInstallUrl: "https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/charts/gitlab-runner-hetzner-autoscale/install-scripts/hetzner-ubuntu-2204-docker-fastinstall.sh"
   serverType: "cpx21"
   serverLocation: "nbg1"
-  image: "ubuntu-20.04"
+  image: "ubuntu-22.04"
 
 runner:
   registrationToken: ""
