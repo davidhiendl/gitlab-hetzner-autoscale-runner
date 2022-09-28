@@ -71,10 +71,39 @@ stringData:
             "hetzner-server-type={{ .Values.hetzner.serverType }}",
             # see for available versions: https://github.com/rancher/install-docker/tree/master/dist
             # "engine-install-url=https://releases.rancher.com/install-docker/19.03.15.sh"
-            # "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/noop.sh"
             # "engine-install-url=https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/chart/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
-            # "engine-install-url=https://s3.eu-central-1.wasabisys.com/dhswt-public/scripts/hetzner-ubuntu-docker-fastinstall.sh"
-            "engine-install-url={{ .Values.hetzner.engineInstallUrl }}"
+            "engine-install-url={{ .Values.hetzner.engineInstallUrl }}",
+            """hetzner-user-data=
+            #cloud-config
+            runcmd:
+              - |
+                # run the install script via cloud init
+                curl -s {{ .Values.hetzner.cloudInitInstallUrl }} | bash -s
+              
+                # wait for the 10-machine file to exist, then restart the agent
+                while sleep 1; do
+                  if [ -e /etc/systemd/system/docker.service.d/10-machine.conf ]; then
+                    echo "found /etc/systemd/system/docker.service.d/10-machine.conf file, waiting 1s ..."
+                    sleep 1
+                    echo "restarting docker ..."
+                    systemctl restart docker
+
+                    {{ if $.Values.prepullImages }}
+                    # pre-pull images
+                    echo "pre-pulling images ..."
+                    sleep 3
+                    {{- range $.Values.prepullImages }}
+                    docker pull {{ . }}
+                    {{- end }}
+                    {{ end }}
+
+                    echo "cloud-init background tasks completed"
+
+                    break
+                  fi
+                done &
+
+          """
         ]
         OffPeakTimezone = ""
         OffPeakIdleCount = 0

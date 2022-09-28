@@ -1,17 +1,21 @@
 image: ghcr.io/davidhiendl/gitlab-runner-hetzner-autoscale:master
 pullPolicy: Always
 
-
 hetzner:
   apiToken:
-  engineInstallUrl: "https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/charts/gitlab-runner-hetzner-autoscale/install-scripts/hetzner-ubuntu-docker-fastinstall.sh"
+  cloudInitInstallUrl: "https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/install-scripts/hetzner-ubuntu-2204-docker-fastinstall.sh"
+  engineInstallUrl: "https://raw.githubusercontent.com/davidhiendl/gitlab-runner-hetzner-autoscale/master/install-scripts/no-op.sh"
   serverType: "cpx21"
   serverLocation: "nbg1"
-  image: "ubuntu-20.04"
+  image: "ubuntu-22.04"
 
 runner:
   registrationToken: ""
   ciServerUrl: "https://gitlab.com/"
+
+prepullImages: []
+#  - "docker:dind"
+#  - "docker:stable"
 
 resources:
   requests:
