@@ -52,7 +52,7 @@ stringData:
     {{ end }}
 
     {{ if .Values.runner.tagList }}
-    REGISTER_ARGS="$REGISTER_ARGS --tag-list {{ join "," .Values.runner.tagList }}
+    REGISTER_ARGS="$REGISTER_ARGS --tag-list {{ join "," .Values.runner.tagList }}"
     {{ end }}
 
     # register runner
