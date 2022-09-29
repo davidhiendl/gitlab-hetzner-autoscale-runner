@@ -61,9 +61,9 @@ stringData:
         --template-config=$CONFIG_TEMPLATE_FILE \
         --config=$CONFIG_FILE \
         --executor docker+machine \
-        --run-untagged="{{ .Values.runner.runUntagged }}" \ 
+        --run-untagged="{{ .Values.runner.runUntagged }}" \
         --docker-image=ruby:2.5 \
-        $REGISTER_ARGS \
+        $REGISTER_ARGS
 
   config.template.toml: |
     # docker+machine based on gitlab.com shared runner config: 

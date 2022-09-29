@@ -11,7 +11,9 @@ hetzner:
 
 runner:
   locked: true
-  tags: []
+  tagList:
+  - test1
+  - test2
   runUntagged: true
   registrationToken: ""
   ciServerUrl: "https://gitlab.com/"
