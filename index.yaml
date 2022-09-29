@@ -3,6 +3,22 @@ entries:
   gitlab-runner-hetzner-autoscale:
   - apiVersion: v1
     appVersion: v0.1
+    created: "2022-09-29T20:14:06.403903792Z"
+    description: gitlab-runner-hetzner-autoscale
+    digest: 13139a54ece6b66777dd565a95e6e1b5ef7e84fc897d11b6cefdc35c4f8d16a6
+    home: https://github.com/davidhiendl/gitlab-runner-hetzner-autoscale
+    keywords:
+    - gitlab-runner
+    - autoscale
+    - hetzner
+    name: gitlab-runner-hetzner-autoscale
+    sources:
+    - https://github.com/davidhiendl/gitlab-runner-hetzner-autoscale
+    urls:
+    - https://github.com/davidhiendl/gitlab-runner-hetzner-autoscale/releases/download/gitlab-runner-hetzner-autoscale-0.0.10/gitlab-runner-hetzner-autoscale-0.0.10.tgz
+    version: 0.0.10
+  - apiVersion: v1
+    appVersion: v0.1
     created: "2022-09-29T20:04:05.654373032Z"
     description: gitlab-runner-hetzner-autoscale
     digest: 1b8d01fbd763f147bef2111f16f11200eabc406c23f37319df0aba666f63d5b0
@@ -129,4 +145,4 @@ entries:
     urls:
     - https://github.com/davidhiendl/gitlab-runner-hetzner-autoscale/releases/download/gitlab-runner-hetzner-autoscale-0.0.2/gitlab-runner-hetzner-autoscale-0.0.2.tgz
     version: 0.0.2
-generated: "2022-09-29T20:04:05.654400832Z"
+generated: "2022-09-29T20:14:06.403941893Z"
