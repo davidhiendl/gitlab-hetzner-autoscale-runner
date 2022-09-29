@@ -10,6 +10,9 @@ hetzner:
   image: "ubuntu-22.04"
 
 runner:
+  locked: true
+  tags: []
+  runUntagged: true
   registrationToken: ""
   ciServerUrl: "https://gitlab.com/"
 
